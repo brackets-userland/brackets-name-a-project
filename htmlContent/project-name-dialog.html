@@ -1,14 +1,23 @@
-<div class="project-settings-dialog modal">
+<div class="petetnt-name-a-project-dialog modal">
     <div class="modal-header">
-        <h1 class="dialog-title">{{title}} <small>{{path}}</small></h1>
+        <h1 class="dialog-title petetnt-name-a-project-dialog-title">{{title}} <small>{{path}}</small></h1>
     </div>
     <div class="modal-body">
         <div class="field-container">
             <label>
-                {{Strings.PROJECT_NAME}}: <input name="projectName" type="text" placeholder="{{Strings.PROJECT_NAME}}" value="{{projectName}}" class="url">
+                <span>{{Strings.PROJECT_NAME}}:</span> <input name="projectName" type="text" placeholder="{{Strings.PROJECT_NAME}}" value="{{projectName}}" class="url">
+            </label>
+        </div>
+        <div class="field-container">
+            <label>
+                <span>{{Strings.PROJECT_BACKGROUND_COLOR}}:</span> 
+                <input name="colorValue" type="text" placeholder="{{Strings.PROJECT_BACKGROUND_COLOR}}" value="{{bgColor}}" class="url">
+                <div class="petetnt-name-a-project-color-hint" style="background-color: {{bgColor}}">
+                    <span class="color-swatch" style="background-color: {{bgColor}}"></span>
+                </div>
             </label>
             {{#errorMessage}}<div class="alert" style="margin-bottom: 0">{{{errorMessage}}}</div>{{/errorMessage}}
-         </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button class="dialog-button btn" data-button-id="cancel">{{BracketsStrings.CANCEL}}</button>

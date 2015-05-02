@@ -3,11 +3,11 @@
     "title": "Name-a-project",
     "description": "Extension to enable personalized, per-project nicknames for projects.",
     "homepage": "https://github.com/petetnt/brackets-name-a-project",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "Pete Nykänen <pete.a.nykanen@gmail.com> (http://github.com/petetnt)",
     "license": "MIT",
     "engines": {
-        "brackets": ">=1.00.0"
+        "brackets": ">=1.3.0"
     },
-    "i18n": ["en", "fi"]
+    "i18n": ["en-gb", "fi"]
 }

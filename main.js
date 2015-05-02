@@ -6,7 +6,7 @@ require.config({
     locale: brackets.getLocale()
 });
 
-define(function (require) {
+define(function (require, exports, module) {
     "use strict";
 
     var AppInit                   = brackets.getModule("utils/AppInit"),
@@ -18,6 +18,8 @@ define(function (require) {
         Menus                     = brackets.getModule("command/Menus"),
         Dialogs                   = brackets.getModule("widgets/Dialogs"),
         StringUtils               = brackets.getModule("utils/StringUtils"),
+        ColorUtils               = brackets.getModule("utils/ColorUtils"),
+        ExtensionUtils            = brackets.getModule("utils/ExtensionUtils"),
         BracketsStrings           = brackets.getModule("strings"),
 
         Strings                   = require("strings"),
@@ -38,33 +40,46 @@ define(function (require) {
             projectRoot = ProjectManager.getProjectRoot(),
             projectNameConfig = _getProjectNameConfig(projectRoot._path),
             projectName = projectNameConfig ? projectNameConfig.name : projectRoot._name,
+            bgColor = projectNameConfig ? projectNameConfig.bgColor : "transparent",
             title = StringUtils.format(Strings.PROJECT_DIALOG_TITLE, projectRoot._name),
             templateVars = {
                 title: title,
                 path: projectRoot._path,
                 Strings: Strings,
                 BracketsStrings: BracketsStrings,
-                projectName: projectName
-            };
+                projectName: projectName,
+                bgColor: bgColor
+            },
+            bgColorInput,
+            bgColorHint;
 
         dialog = Dialogs.showModalDialogUsingTemplate(Mustache.render(ProjectNameDialogTemplate, templateVars));
+
+        bgColorInput = dialog.getElement().find("input[name='colorValue']");
+        bgColorHint = dialog.getElement().find(".petetnt-name-a-project-color-hint");
 
         dialog.done(function (id) {
             if (id === Dialogs.DIALOG_BTN_OK) {
                 var config = {},
                     value = dialog.getElement().find("input[name='projectName']").val(),
-                    name = value.length ? value : projectRoot._name;
+                    name = value.length ? value : projectRoot._name,
+                    bgColor = bgColorInput.val();
 
                 config = {
                     _parentPath: projectRoot._path,
                     _name: projectRoot._name,
                     name: name,
-                    bgColor: "transparent",
+                    bgColor: bgColor
                 };
 
                 _setProjectNameConfig(config, projectRoot._path);
-                _renameProjectTitle(name);
             }
+        });
+
+        bgColorInput.on("keyup", function() {
+            var val = $(this).val(); 
+            bgColorHint.html("");
+            ColorUtils.formatColorHint(bgColorHint, val);
         });
     }
 
@@ -82,8 +97,9 @@ define(function (require) {
 
             if (projectNameConfig) {
                 var recentFolder = $elem.find("span").eq(0);
-                console.log(recentFolder);
                 recentFolder.html(projectNameConfig.name);
+                recentFolder.addClass("petetnt-name-a-project-is-named");
+                recentFolder.attr("style", "background-color:" + projectNameConfig.bgColor);
             }
         });
     }
@@ -138,15 +154,15 @@ define(function (require) {
     DocumentManager.on("dirtyFlagChange", _renameProjectTitle);
     DocumentManager.on("fileNameChange", _renameProjectTitle);
     MainViewManager.on("currentFileChange", _renameProjectTitle);
+    prefs.on("change", _renameProjectTitle);
 
     // Handle event dropdown open after htmlReady
     AppInit.htmlReady(function () {
         $("#project-dropdown-toggle").on("click", _prefixRecentFolders);
     });
 
-    prefs.on("change", function () {
-
-    });
+    // Load stylesheet with ExtensionUtils
+    ExtensionUtils.loadStyleSheet(module, "style/style.less");
 
     // Add command menu items
     CommandManager.register(Strings.PROJECT_NAME, COMMAND_ID, _showProjectNameDialog);
