@@ -4,6 +4,7 @@ define(function (require, exports, module) {
     module.exports = {
         root: true,
         "en-gb": true,
-        "fi": true
+        "fi": true,
+        "it": true
     };
 });
