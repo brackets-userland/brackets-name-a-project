@@ -7,7 +7,7 @@ Extension to enable personalized, per-project nicknames for projects.
 ## Usage
 ### Configuring a project name
 1. Open File -> Project name
-2. Change the name and background color (hex or name) for your project
+2. Change the name and background color (hex, hsl, rgba or name) for your project
 3. Press "Done"
 
 ### Resetting a name
