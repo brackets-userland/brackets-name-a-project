@@ -1,4 +1,6 @@
 ###Versions
+## 0.0.3
+* (Bugfix) Init `namedProjects` with an empty object if it doesn't exits yet
 
 ## 0.0.2
 * Basic functionality included

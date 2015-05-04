@@ -144,7 +144,7 @@ define(function (require, exports, module) {
      * @param {string} path Current project path
      */       
     function _setProjectNameConfig(config, path) {
-        var namedProjects = prefs.get("namedProjects");
+        var namedProjects = prefs.get("namedProjects") || {};
         namedProjects[path] = config;
         prefs.set("namedProjects", namedProjects);
     }
