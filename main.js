@@ -32,8 +32,10 @@ define(function (require, exports, module) {
         prefs                     = PreferencesManager.getExtensionPrefs(COMMAND_ID);
 
 
-    /**
-     * Function that runs when "Project Name" is clicked in the File-menu.
+    /*
+     * @private
+     * @method _showProjectNameDialog()
+     * @description Show project-name-dialog "Project Name" is clicked in the File-menu.
      */
     function _showProjectNameDialog() {
         var dialog,
@@ -63,7 +65,8 @@ define(function (require, exports, module) {
                 var config = {},
                     value = dialog.getElement().find("input[name='projectName']").val(),
                     name = value.length ? value : projectRoot._name,
-                    bgColor = bgColorInput.val();
+                    bgColor = bgColorInput.val(),
+                    scope = dialog.getElement().find("#petetnt-scope-selection").val();
 
                 config = {
                     _parentPath: projectRoot._path,
@@ -72,7 +75,7 @@ define(function (require, exports, module) {
                     bgColor: bgColor
                 };
 
-                _setProjectNameConfig(config, projectRoot._path);
+                _setProjectNameConfig(config, projectRoot._path, scope);
             }
         });
 
@@ -83,8 +86,10 @@ define(function (require, exports, module) {
         });
     }
 
-    /**
-     * Prefix Recent folders when the Project Dropdown is opened
+    /*
+     * @private
+     * @method _prefixRecentFolders()
+     * @description Prefix Recent folders when the Project Dropdown is opened
      */   
     function _prefixRecentFolders() {
         var projectDropdown = $("#project-dropdown"),
@@ -104,8 +109,10 @@ define(function (require, exports, module) {
         });
     }
 
-    /**
-     * Rename the Project Title bar and construct document title with the current name
+    /*
+     * @private
+     * @method _renameProjectTitle
+     * @description Rename the Project Title bar and construct document title with the current name
      */     
     function _renameProjectTitle() {
         var projectRoot = ProjectManager.getProjectRoot(),
@@ -119,8 +126,10 @@ define(function (require, exports, module) {
         }
     } 
 
-    /** 
-     *  Rename the window title after DocumentCommandHandler has finished       
+    /*
+     * @private
+     * @method _renameWindowTitle
+     * @description Rename the window title after DocumentCommandHandler has finished       
      */    
     function _renameWindowTitle(name) {
         setTimeout(function () {
@@ -128,7 +137,7 @@ define(function (require, exports, module) {
         }, 1);   
     }
 
-    /**
+    /*
      * Get a object representing the path, original name, current name and background color according to the given path
      * @param {string} path 
      * @returns {Object.<string, string, string, string>} Object of _parentPath, _name, name and bgColor
@@ -138,15 +147,24 @@ define(function (require, exports, module) {
         return namedProjects ? namedProjects[path] : null;
     }
 
-    /**
+    /*
      * Save current config after changes
      * @param {Object.<string, string, string, string>} config Object of _parentPath, _name, name and bgColor
      * @param {string} path Current project path
+     * @param {string} Scope scope to save preference at, can be undefined.
      */       
-    function _setProjectNameConfig(config, path) {
-        var namedProjects = prefs.get("namedProjects") || {};
+    function _setProjectNameConfig(config, path, scope) {
+        if (scope === "default") {
+            scope = prefs.get("defaultScope");    
+        }
+        
+        var namedProjects = scope !== "project" ? (prefs.get("namedProjects") || {}) : {};
         namedProjects[path] = config;
-        prefs.set("namedProjects", namedProjects);
+        prefs.set("namedProjects", namedProjects, {
+            location: {
+                scope: scope
+            }
+        });   
     }
 
     // Listen for changes that require updating the editor titlebar
@@ -154,7 +172,9 @@ define(function (require, exports, module) {
     DocumentManager.on("dirtyFlagChange", _renameProjectTitle);
     DocumentManager.on("fileNameChange", _renameProjectTitle);
     MainViewManager.on("currentFileChange", _renameProjectTitle);
+    
     prefs.on("change", _renameProjectTitle);
+    prefs.definePreference("defaultScope", "string", prefs.get("defaultScope") || "user");
 
     // Handle event dropdown open after htmlReady
     AppInit.htmlReady(function () {

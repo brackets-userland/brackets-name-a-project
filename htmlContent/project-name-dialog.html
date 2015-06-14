@@ -11,12 +11,21 @@
         <div class="field-container">
             <label>
                 <span>{{Strings.PROJECT_BACKGROUND_COLOR}}:</span> 
-                <input name="colorValue" type="text" placeholder="{{Strings.PROJECT_BACKGROUND_COLOR}}" value="{{bgColor}}" class="url">
+                <input name="colorValue" type="text" placeholder="{{Strings.PROJECT_BACKGROUND_COLOR}}" value="{{bgColor}}" class="url">              
                 <div class="petetnt-name-a-project-color-hint" style="background-color: {{bgColor}}">
                     <span class="color-swatch" style="background-color: {{bgColor}}"></span>
                 </div>
             </label>
-            {{#errorMessage}}<div class="alert" style="margin-bottom: 0">{{{errorMessage}}}</div>{{/errorMessage}}
+        </div>
+        <div class="field-container">
+            <label for="petetnt-scope-selection">
+                {{Strings.PROJECT_SETTINGS_SCOPES.TITLE}}
+                <select id="petetnt-scope-selection">
+                    <option value="default">{{Strings.PROJECT_SETTINGS_SCOPES.DEFAULT}}</option>
+                    <option value="user">{{Strings.PROJECT_SETTINGS_SCOPES.USERGLOBAL}}</option>
+                    <option value="project">{{Strings.PROJECT_SETTINGS_SCOPES.PROJECT}}</option>
+                </select>
+            </label>
         </div>
     </div>
     <div class="modal-footer">

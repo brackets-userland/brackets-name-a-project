@@ -1,4 +1,7 @@
 ###Versions
+## 0.0.4
+* Added optional scope for the project name settings
+
 ## 0.0.3
 * (Bugfix) Init `namedProjects` with an empty object if it doesn't exits yet
 
