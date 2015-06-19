@@ -43,6 +43,7 @@ define(function (require, exports, module) {
             projectNameConfig = _getProjectNameConfig(projectRoot._path),
             projectName = projectNameConfig ? projectNameConfig.name : projectRoot._name,
             bgColor = projectNameConfig ? projectNameConfig.bgColor : "transparent",
+            textColor = projectNameConfig ? projectNameConfig.textColor : "#0000",
             title = StringUtils.format(Strings.PROJECT_DIALOG_TITLE, projectRoot._name),
             templateVars = {
                 title: title,
@@ -50,15 +51,20 @@ define(function (require, exports, module) {
                 Strings: Strings,
                 BracketsStrings: BracketsStrings,
                 projectName: projectName,
-                bgColor: bgColor
+                bgColor: bgColor,
+                textColor: textColor
             },
             bgColorInput,
-            bgColorHint;
+            bgColorHint,
+            textColorInput,
+            textColorHint;
 
         dialog = Dialogs.showModalDialogUsingTemplate(Mustache.render(ProjectNameDialogTemplate, templateVars));
 
-        bgColorInput = dialog.getElement().find("input[name='colorValue']");
-        bgColorHint = dialog.getElement().find(".petetnt-name-a-project-color-hint");
+        bgColorInput = dialog.getElement().find("input[name='bgColorValue']");
+        textColorInput = dialog.getElement().find("input[name='textColorValue']");
+        bgColorHint = dialog.getElement().find(".petetnt-name-a-project-bgcolor-hint");
+        textColorHint = dialog.getElement().find(".petetnt-name-a-project-textcolor-hint");
 
         dialog.done(function (id) {
             if (id === Dialogs.DIALOG_BTN_OK) {
@@ -66,13 +72,15 @@ define(function (require, exports, module) {
                     value = dialog.getElement().find("input[name='projectName']").val(),
                     name = value.length ? value : projectRoot._name,
                     bgColor = bgColorInput.val(),
+                    textColor = textColorInput.val(),
                     scope = dialog.getElement().find("#petetnt-scope-selection").val();
 
                 config = {
                     _parentPath: projectRoot._path,
                     _name: projectRoot._name,
                     name: name,
-                    bgColor: bgColor
+                    bgColor: bgColor,
+                    textColor: textColor
                 };
 
                 _setProjectNameConfig(config, projectRoot._path, scope);
@@ -83,6 +91,12 @@ define(function (require, exports, module) {
             var val = $(this).val(); 
             bgColorHint.html("");
             ColorUtils.formatColorHint(bgColorHint, val);
+        });
+        
+        textColorInput.on("keyup", function() {
+            var val = $(this).val(); 
+            textColorHint.html("");
+            ColorUtils.formatColorHint(textColorHint, val);
         });
     }
 
@@ -104,7 +118,7 @@ define(function (require, exports, module) {
                 var recentFolder = $elem.find("span").eq(0);
                 recentFolder.html(projectNameConfig.name);
                 recentFolder.addClass("petetnt-name-a-project-is-named");
-                recentFolder.attr("style", "background-color:" + projectNameConfig.bgColor);
+                recentFolder.attr("style", "background-color:" + projectNameConfig.bgColor + "; color:" + projectNameConfig.textColor);
             }
         });
     }

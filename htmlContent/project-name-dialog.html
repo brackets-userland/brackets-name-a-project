@@ -11,9 +11,16 @@
         <div class="field-container">
             <label>
                 <span>{{Strings.PROJECT_BACKGROUND_COLOR}}:</span> 
-                <input name="colorValue" type="text" placeholder="{{Strings.PROJECT_BACKGROUND_COLOR}}" value="{{bgColor}}" class="url">              
-                <div class="petetnt-name-a-project-color-hint" style="background-color: {{bgColor}}">
+                <input name="bgColorValue" type="text" placeholder="{{Strings.PROJECT_BACKGROUND_COLOR}}" value="{{bgColor}}" class="url">              
+                <div class="petetnt-name-a-project-bgcolor-hint" style="background-color: {{bgColor}}">
                     <span class="color-swatch" style="background-color: {{bgColor}}"></span>
+                </div>
+            </label>
+            <label>
+                <span>{{Strings.PROJECT_TEXT_COLOR}}:</span> 
+                <input name="textColorValue" type="text" placeholder="{{Strings.PROJECT_TEXT_COLOR}}" value="{{textColor}}" class="url">              
+                <div class="petetnt-name-a-project-textcolor-hint" style="color-color: {{textColor}}">
+                    <span class="color-swatch" style="background-color: {{textColor}}"></span>
                 </div>
             </label>
         </div>
