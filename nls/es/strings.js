@@ -2,6 +2,7 @@ define({
     "PROJECT_NAME": "Nombre del proyecto",
     "PROJECT_DIALOG_TITLE": "Nombre del proyecto para {0}",
     "PROJECT_BACKGROUND_COLOR": "Color de fondo (hex, hsla, rgba o nombre)",
+    "PROJECT_TEXT_COLOR": "Color de texto (hex, hsla, rgba o nombre)",
     "PROJECT_SETTINGS_SCOPES": {
       "TITLE": "Scope:",
       "DEFAULT": "Default",
