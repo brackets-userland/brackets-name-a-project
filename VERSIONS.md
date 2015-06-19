@@ -1,4 +1,8 @@
 ###Versions
+## 0.0.5
+* Spanish translation
+* Added option to change text color
+
 ## 0.0.4
 * Added optional scope for the project name settings
 
