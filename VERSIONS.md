@@ -1,4 +1,7 @@
 ###Versions
+## 0.0.6
+* Small bugfix where {0} replaced with #000 ended up with #0000
+
 ## 0.0.5
 * Spanish translation
 * Added option to change text color

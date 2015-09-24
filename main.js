@@ -43,7 +43,7 @@ define(function (require, exports, module) {
             projectNameConfig = _getProjectNameConfig(projectRoot._path),
             projectName = projectNameConfig ? projectNameConfig.name : projectRoot._name,
             bgColor = projectNameConfig ? projectNameConfig.bgColor : "transparent",
-            textColor = projectNameConfig ? projectNameConfig.textColor : "#000",
+            textColor = projectNameConfig ? projectNameConfig.textColor : "black",
             title = StringUtils.format(Strings.PROJECT_DIALOG_TITLE, projectRoot._name),
             templateVars = {
                 title: title,
